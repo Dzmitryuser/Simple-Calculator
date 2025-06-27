@@ -156,7 +156,7 @@ body {
   .screen {
     flex: 0 1 auto;
     max-height: 35vh;
-    min-height: 23vh;
+    min-height: 20vh;
     overflow: hidden;
   }
 
