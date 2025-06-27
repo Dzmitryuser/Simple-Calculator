@@ -11,11 +11,8 @@ const screen = {
   },
 
   setResultScreen(param: number | string) {
-    if (this.result !== null && param !== 0) {
+    if (this.result !== null) {
       this.result.textContent = String(param);
-      this.resetErrorScreen();
-    } else if (this.result !== null) {
-      this.result.textContent = "";
       this.resetErrorScreen();
     }
   },
@@ -289,6 +286,6 @@ export const calculator = {
     } catch (error) {
       screen.setErrorScreen("Что-то пошло не так");
     }
-    return logicAnswer
+    return logicAnswer;
   },
 };
