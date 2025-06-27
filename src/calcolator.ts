@@ -12,8 +12,10 @@ const screen = {
   setResultScreen(param: number | string) {
     if (this.result !== null && param !== 0) {
       this.result.textContent = String(param);
+      this.resetErrorScreen();
     } else if (this.result !== null) {
       this.result.textContent = "";
+      this.resetErrorScreen();
     }
   },
 
