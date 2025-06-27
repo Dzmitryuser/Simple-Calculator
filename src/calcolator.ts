@@ -6,6 +6,7 @@ const screen = {
   setLogicScreen(param: string[]) {
     if (this.logic !== null) {
       this.logic.textContent = param.join("");
+      this.resetErrorScreen();
     }
   },
 
@@ -266,5 +267,28 @@ export const calculator = {
     } catch (error) {
       screen.setErrorScreen("Что-то пошло не так");
     }
+  },
+  calculateLogic() {
+    let logicAnswer: number = 0;
+    const validation = this.validateExpression(this.logicContent);
+    if (!validation.isValid) {
+      screen.setErrorScreen(validation.error || "Ошибка");
+      return;
+    }
+
+    try {
+      const expression = this.logicContent.join("");
+      const result = Function('"use strict"; return (' + expression + ")")();
+
+      // Дополнительная проверка деления на ноль для случаев типа (1/0)
+      if (!isFinite(result)) {
+        screen.setErrorScreen("Деление на ноль");
+        return;
+      }
+      logicAnswer = result;
+    } catch (error) {
+      screen.setErrorScreen("Что-то пошло не так");
+    }
+    return logicAnswer
   },
 };
