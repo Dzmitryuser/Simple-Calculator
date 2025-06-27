@@ -5,7 +5,7 @@
 }
 
 .nodisplay {
-  display: none
+  display: none;
 }
 
 body {
@@ -50,6 +50,7 @@ body {
 }
 
 .screen {
+  position: relative;
   width: 100%;
   min-height: 200px;
   background-color: var(--screen-color);
@@ -65,7 +66,9 @@ body {
 }
 
 .error-screen {
-  
+  position: absolute;
+  top: 1px;
+  color: red;
 }
 
 .answer {
@@ -73,6 +76,7 @@ body {
   line-height: 1;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .operations {
@@ -81,6 +85,7 @@ body {
   margin-bottom: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .keybord {
@@ -136,7 +141,7 @@ body {
   html {
     height: -webkit-fill-available; /* Фикс для мобильного Chrome */
   }
-  
+
   body {
     min-height: 100vh;
     min-height: -webkit-fill-available;
@@ -145,7 +150,7 @@ body {
     align-items: stretch;
     overflow: hidden;
   }
-  
+
   .app {
     max-width: 100%;
     width: 100%;
