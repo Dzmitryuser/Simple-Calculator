@@ -12,7 +12,7 @@ const screen = {
     if (this.result !== null && param !== 0) {
       this.result.textContent = String(param);
     } else if (this.result !== null) {
-      this.result.textContent = '';
+      this.result.textContent = "";
     }
   },
 };
@@ -114,7 +114,14 @@ export const calculator = {
     screen.setLogicScreen(this.logicContent);
   },
 
-  pressPlusMinusButton() {},
+  pressPlusMinusButton() {
+    if (this.logicContent[0] !== "-") {
+      this.logicContent = ["-", ...this.logicContent];
+    } else {
+      this.logicContent = this.logicContent.slice(1);
+    }
+    screen.setLogicScreen(this.logicContent);
+  },
   presszeroButton() {
     this.logicContent.push("0");
     screen.setLogicScreen(this.logicContent);

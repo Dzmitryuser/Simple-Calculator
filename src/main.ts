@@ -85,3 +85,47 @@ if (buttonsHolder) {
     }
   });
 }
+
+document.addEventListener("keydown", (evt) => {
+  if (evt.key === "7") {
+    calculator.pressSevenButton();
+  } else if (evt.key === "8") {
+    calculator.pressEightButton();
+  } else if (evt.key === "9") {
+    calculator.pressNineButton();
+  } else if (evt.key === "4") {
+    calculator.pressFourButton();
+  } else if (evt.key === "5") {
+    calculator.pressFiveButton();
+  } else if (evt.key === "6") {
+    calculator.pressSixButton();
+  } else if (evt.key === "1") {
+    calculator.pressOneButton();
+  } else if (evt.key === "2") {
+    calculator.pressTwoButton();
+  } else if (evt.key === "3") {
+    calculator.pressThreeButton();
+  } else if (evt.key === "0") {
+    calculator.presszeroButton();
+  } else if (evt.key === "+") {
+    calculator.pressAddButton();
+  } else if (evt.key === "-") {
+    calculator.pressMinusButton();
+  } else if (evt.key === "*") {
+    calculator.pressMultiButton();
+  } else if (evt.key === "/") {
+    calculator.pressDevideButton();
+  } else if (evt.key === "Enter") {
+    calculator.pressequalButton();
+  } else if (evt.key === "Escape") {
+    calculator.pressCeButton();
+  } else if (evt.key === "Backspace") {
+    calculator.pressBackspaseButton();
+  } else if (evt.key === ")") {
+    calculator.pressBracketCloseButton();
+  } else if (evt.key === "(") {
+    calculator.pressBracketOpenButton();
+  } else if (evt.key === "%") {
+    calculator.pressPercentButton();
+  }
+});
