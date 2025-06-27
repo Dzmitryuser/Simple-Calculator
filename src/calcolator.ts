@@ -154,7 +154,6 @@ export const calculator = {
       const expression = this.logicContent.join("");
       const result = Function('"use strict"; return (' + expression + ")")();
 
-      // Дополнительная проверка деления на ноль для случаев типа (1/0)
       if (!isFinite(result)) {
         screen.setErrorScreen("Деление на ноль");
         return;
