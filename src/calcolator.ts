@@ -1,6 +1,7 @@
 const screen = {
   logic: document.querySelector(".operations"),
   result: document.querySelector(".answer"),
+  errorField: document.querySelector(".error-screen"),
 
   setLogicScreen(param: string[]) {
     if (this.logic !== null) {
@@ -8,24 +9,84 @@ const screen = {
     }
   },
 
-  setResultScreen(param: number) {
+  setResultScreen(param: number | string) {
     if (this.result !== null && param !== 0) {
       this.result.textContent = String(param);
     } else if (this.result !== null) {
       this.result.textContent = "";
     }
   },
+
+  setErrorScreen(param: string) {
+    if (this.errorField) {
+    this.errorField.classList.remove("nodisplay")
+    this.errorField.textContent = `Ошибка: ${param}`
+  }
+  },
+  resetErrorScreen() {
+    if (this.errorField) {
+    this.errorField.classList.add("nodisplay");
+    this.errorField.textContent = ''
+  }
+  }
 };
 
 export const calculator = {
   logicContent: [] as string[],
-  answerContent: 0 as number,
+  answerContent: 0 as number | string,
+
+  validateExpression(expressionArray: string[]): {
+    isValid: boolean;
+    error?: string;
+  } {
+    const expression = expressionArray.join("");
+
+    if (expression.trim() === "") {
+      return { isValid: false, error: "Введите выражение" };
+    }
+
+    if (!/^[\d+\-*/().\s]+$/.test(expression)) {
+      return { isValid: false, error: "Недопустимые символы" };
+    }
+
+    const brackets = expression.replace(/[^()]/g, "");
+    let balance = 0;
+    for (const char of brackets) {
+      balance += char === "(" ? 1 : -1;
+      if (balance < 0) break;
+    }
+    if (balance !== 0) {
+      return { isValid: false, error: "Несбалансированные скобки" };
+    }
+
+    if (/^[+*/]/.test(expression)) {
+      return { isValid: false, error: "Оператор в начале" };
+    }
+    if (/[+\-*/]$/.test(expression)) {
+      return { isValid: false, error: "Оператор в конце" };
+    }
+
+    if (/([+\-*/]{2,})/.test(expression)) {
+      return { isValid: false, error: "Два оператора подряд" };
+    }
+
+    if (/(\.\d*\.|\.$)/.test(expression)) {
+      return { isValid: false, error: "Некорректное число" };
+    }
+
+     if (/\/\s*0(?!\.)/.test(expression)) {
+      return { isValid: false, error: "Деление на ноль" };
+    }
+
+    return { isValid: true };
+  },
 
   pressCeButton() {
     this.logicContent.length = 0;
     this.answerContent = 0;
     screen.setLogicScreen(this.logicContent);
     screen.setResultScreen(this.answerContent);
+    screen.resetErrorScreen();
   },
   pressPercentButton() {
     const expression = this.logicContent.join("");
@@ -131,10 +192,27 @@ export const calculator = {
     screen.setLogicScreen(this.logicContent);
   },
   pressequalButton() {
-    const expression = this.logicContent.join("");
-    this.answerContent = Function(
-      '"use strict"; return (' + expression + ")"
-    )();
-    screen.setResultScreen(this.answerContent);
+    const validation = this.validateExpression(this.logicContent);
+    if (!validation.isValid) {
+      screen.setErrorScreen(validation.error || "Ошибка");
+      return;
+    }
+    
+    try {
+      const expression = this.logicContent.join("");
+      const result = Function('"use strict"; return (' + expression + ")")();
+
+
+      // Дополнительная проверка деления на ноль для случаев типа (1/0)
+      if (!isFinite(result)) {
+        screen.setErrorScreen("Деление на ноль");
+        return;
+      }
+      
+      this.answerContent = result;
+      screen.setResultScreen(this.answerContent);
+    } catch (error) {
+      screen.setErrorScreen("Что-то пошло не так");
+    }
   },
 };
