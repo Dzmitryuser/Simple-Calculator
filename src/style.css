@@ -42,7 +42,6 @@ body {
   width: 100%;
   max-width: 375px;
   height: auto;
-  min-height: 667px;
   padding: 20px;
   background-color: var(--bg-color);
   border-radius: 20px;
@@ -135,6 +134,7 @@ body {
 .button:active {
   transform: scale(0.97);
 }
+
 
 /* Мобильная адаптация */
 @media (max-width: 480px) {
