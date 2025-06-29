@@ -1,4 +1,4 @@
-import { calculator } from "./calcolator.ts";
+import { calculator } from "./calculator.ts";
 
 const buttonsHolder: Element | null = document.querySelector(".keybord");
 

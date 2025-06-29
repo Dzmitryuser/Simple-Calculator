@@ -89,27 +89,14 @@ export const calculator = {
     screen.resetErrorScreen();
   },
   pressPercentButton() {
-    const validation = this.validateExpression(this.logicContent);
-    if (!validation.isValid) {
-      screen.setErrorScreen(validation.error || "Ошибка");
+    const result = this.calculateLogic();
+
+    if (result === undefined) {
       return;
     }
 
-    try {
-      const expression = this.logicContent.join("");
-      const result = Function('"use strict"; return (' + expression + ")")();
-
-      // Дополнительная проверка деления на ноль для случаев типа (1/0)
-      if (!isFinite(result)) {
-        screen.setErrorScreen("Деление на ноль");
-        return;
-      }
-
-      this.answerContent = result * 100;
-      screen.setResultScreen(this.answerContent);
-    } catch (error) {
-      screen.setErrorScreen("Что-то пошло не так");
-    }
+    this.answerContent = result * 100;
+    screen.setResultScreen(this.answerContent);
   },
   pressBracketOpenButton() {
     this.logicContent.push("(");
@@ -121,49 +108,24 @@ export const calculator = {
   },
 
   pressSquareRootButton() {
-    const validation = this.validateExpression(this.logicContent);
-    if (!validation.isValid) {
-      screen.setErrorScreen(validation.error || "Ошибка");
+    const result = this.calculateLogic();
+
+    if (result === undefined) {
       return;
     }
 
-    try {
-      const expression = this.logicContent.join("");
-      const result = Function('"use strict"; return (' + expression + ")")();
-
-      // Дополнительная проверка деления на ноль для случаев типа (1/0)
-      if (!isFinite(result)) {
-        screen.setErrorScreen("Деление на ноль");
-        return;
-      }
-
-      this.answerContent = Math.sqrt(result);
-      screen.setResultScreen(this.answerContent);
-    } catch (error) {
-      screen.setErrorScreen("Что-то пошло не так");
-    }
+    this.answerContent = Math.sqrt(result);
+    screen.setResultScreen(this.answerContent);
   },
   pressSquareButton() {
-    const validation = this.validateExpression(this.logicContent);
-    if (!validation.isValid) {
-      screen.setErrorScreen(validation.error || "Ошибка");
+    const result = this.calculateLogic();
+
+    if (result === undefined) {
       return;
     }
 
-    try {
-      const expression = this.logicContent.join("");
-      const result = Function('"use strict"; return (' + expression + ")")();
-
-      if (!isFinite(result)) {
-        screen.setErrorScreen("Деление на ноль");
-        return;
-      }
-
-      this.answerContent = result * result;
-      screen.setResultScreen(this.answerContent);
-    } catch (error) {
-      screen.setErrorScreen("Что-то пошло не так");
-    }
+    this.answerContent = result * result;
+    screen.setResultScreen(this.answerContent);
   },
   pressBracketCloseButton() {
     this.logicContent.push(")");
@@ -242,30 +204,19 @@ export const calculator = {
     screen.setLogicScreen(this.logicContent);
   },
   pressequalButton() {
-    const validation = this.validateExpression(this.logicContent);
-    if (!validation.isValid) {
-      screen.setErrorScreen(validation.error || "Ошибка");
+    const result = this.calculateLogic();
+
+    if (result === undefined) {
       return;
     }
 
-    try {
-      const expression = this.logicContent.join("");
-      const result = Function('"use strict"; return (' + expression + ")")();
-
-      // Дополнительная проверка деления на ноль для случаев типа (1/0)
-      if (!isFinite(result)) {
-        screen.setErrorScreen("Деление на ноль");
-        return;
-      }
-
-      this.answerContent = result;
-      screen.setResultScreen(this.answerContent);
-    } catch (error) {
-      screen.setErrorScreen("Что-то пошло не так");
-    }
+    this.answerContent = String(result);
+    screen.setResultScreen(this.answerContent);
   },
+
   calculateLogic() {
     let logicAnswer: number = 0;
+
     const validation = this.validateExpression(this.logicContent);
     if (!validation.isValid) {
       screen.setErrorScreen(validation.error || "Ошибка");
