@@ -58,10 +58,14 @@ export const calculator = {
     if (balance !== 0) {
       return { isValid: false, error: "Несбалансированные скобки" };
     }
+    if (/\(\s*\)/.test(expression)) {
+      return { isValid: false, error: "Пустые скобки" };
+    }
 
     if (/^[+*/]/.test(expression)) {
       return { isValid: false, error: "Оператор в начале" };
     }
+    
     if (/[+\-*/]$/.test(expression)) {
       return { isValid: false, error: "Оператор в конце" };
     }
